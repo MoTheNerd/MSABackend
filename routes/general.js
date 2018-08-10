@@ -11,7 +11,7 @@ import { db } from '../app';
 router.use(bodyParser.json()); // for parsing application/json
 router.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-/* GET users listing. */
+/* GET Jummah Timing Listing. */
 router.get('/', async function (req, res, next) {
   console.log("GET / @general")
   res.send(await callDB());
