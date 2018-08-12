@@ -5,6 +5,10 @@
 version: 2
 jobs:
   build:
+    branches:
+      only:
+        - develop
+        - master
     docker:
       # specify the version you desire here
       - image: circleci/node:7.10
@@ -34,7 +38,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
         
       # run tests!
-      - run: npm test
-
+      # - run: npm test
+      # Disabling since We don't have tests yet and circleci hangs :P
 
 
