@@ -13,11 +13,15 @@ router.use(bodyParser.urlencoded({ extended: true })); // for parsing applicatio
 
 /* GET Jummah Timing Listing. */
 router.get('/', async function (req, res, next) {
-  console.log("GET / @general")
-  res.send(await callDB());
+  res.send(await getJummahTimes());
 });
 
-let callDB = async () => {
+/* SET Jummah Timing Listing */
+router.post('/', upload.array(), async function (req, res, next) {
+  res.send(await setJummahTimes(req.body))
+});
+
+let getJummahTimes = async () => {
   var res = Q.defer();
   const response = await db.collection("general").find().toArray((error, results) => {
     if (error) res.reject(error);
@@ -29,16 +33,22 @@ let callDB = async () => {
       res.resolve();
     }
   })
-
-  console.log(await res.promise)
-
   return res.promise;
 };
 
-//remember, post is non-destructive
-//curl -XPOST -H "Content-type: application/json" -d '{"key": "content"}' 'http://localhost:3001/path'
-router.post('/', upload.array(), function (req, res, next) {
-  res.json(req.body)
-});
+let setJummahTimes = async (data = {}) => {
+  var res = Q.defer();
+  db.dropCollection("general", (delGenErr, delGenRes) => {
+    db.createCollection("general", (creGenErr, creGenRes) => {
+      if (creGenRes) {
+        db.collection("general").insert(data, (err, result) => {
+          if (err) console.log(err);
+          else res.resolve({ success: true, data: data });
+        })
+      }
+    })
+  })
+  return await res.promise;
+};
 
 module.exports = router;

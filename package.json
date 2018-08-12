@@ -80,7 +80,9 @@
     ],
     "rules": {
       "jest/no-focused-tests": 2,
-      "jest/no-identical-title": 2
+      "jest/no-identical-title": 2,
+      "no-unused-vars": ["error", { "args": "none" }],
+      "no-console": ["error", { "args": "none" }]
     }
   },
   "jest": {
