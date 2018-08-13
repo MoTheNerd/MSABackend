@@ -1,4 +1,8 @@
+var firebase = require('firebase')
+
 require('dotenv').config();
+
+console.log(process.env)
 
 var createError = require('http-errors');
 var express = require('express');
@@ -12,6 +16,7 @@ var usersRouter = require('./routes/users');
 var eventsRouter = require('./routes/events');
 var postsRouter = require('./routes/posts');
 var generalRouter = require('./routes/general');
+var authRouter = require('./routes/auth');
 
 var app = express();
 
@@ -37,6 +42,7 @@ app.use('/users', usersRouter);
 app.use('/general', generalRouter);
 app.use('/events', eventsRouter);
 app.use('/posts', postsRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
