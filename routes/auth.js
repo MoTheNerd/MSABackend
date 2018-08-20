@@ -39,11 +39,37 @@ router.post('/create', upload.array(), async function (req, res, next) {
     res.send(await createUser(req.body))
 });
 
+router.post('/update', upload.array(), async function (req, res, next) {
+    res.send(await updateUser(req.body))
+});
+
 /* SEND password reset */ // to implement
 // router.get('/login', async function (req, res, next) {
 //     console.log("Areeba")
 //     res.send(await getUserInfo(req.body));
 // });
+
+async function updateUser(userInfo) {
+    let retData = Q.defer()
+
+    let dbInfo = {
+        name: userInfo.name,
+        description: userInfo.description,
+        discipline: {
+            year: userInfo.discipline.year,
+            faculty: userInfo.discipline.faculty,
+            specialization: userInfo.discipline.specialization,
+        },
+    }
+    db.collection("users").replaceOne({ email: userInfo.email }, dbInfo, (err, result) => {
+        if (err) retData.reject(err)
+        else {
+            retData.resolve({ success: true, data: dbInfo });
+        }
+    })
+
+    return await retData.promise
+}
 
 async function getUserInfo(userInfo) {
     console.log(userInfo)
