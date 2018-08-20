@@ -100,7 +100,7 @@ async function createUser(userInfo) {
         name: userInfo.name,
         email: userInfo.email,
         role: userInfo.role,
-        image: await generator.generate(),
+        // image: await generator.generate(),
         description: userInfo.description,
         discipline: {
             year: userInfo.discipline.year,
